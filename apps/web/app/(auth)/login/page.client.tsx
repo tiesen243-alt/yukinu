@@ -99,7 +99,8 @@ export const LoginForm: React.FC<{ redirectTo: string }> = ({ redirectTo }) => {
         </Button>
 
         <FieldDescription>
-          Don't have an account? <Link href='/register'>Register here</Link>
+          Don&apos;t have an account?{' '}
+          <Link href='/register'>Register here</Link>
         </FieldDescription>
       </Field>
     </form>

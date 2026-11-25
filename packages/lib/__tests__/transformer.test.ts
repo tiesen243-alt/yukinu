@@ -13,7 +13,7 @@ describe('transformer', () => {
       error: new Error('Something went wrong'),
       set: new Set([1, 2, 3]),
       map: new Map([['key', 'value']]),
-      bigInt: BigInt(12_345_678_901_234_567_890n),
+      bigInt: 12_345_678_901_234_567_890n,
     }
 
     const serialized = transformer.serialize(obj)

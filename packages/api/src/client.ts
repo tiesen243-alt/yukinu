@@ -62,5 +62,5 @@ const createTRPCClient = (source: string, baseUrl: string) => {
   })
 }
 
-export type { AppRouter }
+export type { AppRouter } from '@/app'
 export { createTRPCClient }

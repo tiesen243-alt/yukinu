@@ -3,9 +3,10 @@ import type {
   PostgresJsDatabase,
   PostgresJsQueryResultHKT,
 } from 'drizzle-orm/postgres-js'
+import type { Sql } from 'postgres'
 
 export type Database =
-  | PostgresJsDatabase
+  | (PostgresJsDatabase & { $client: Sql })
   | PgTransaction<PostgresJsQueryResultHKT>
 
 export type PgTable = AnyPgTable

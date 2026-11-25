@@ -292,7 +292,7 @@ function ProductImagesFields({
             <UploadDropzone
               className='size-32'
               endpoint='productImageUploader'
-              value={''}
+              value=''
               onValueChange={(url) => field.onChange((prev) => [...prev, url])}
             />
 

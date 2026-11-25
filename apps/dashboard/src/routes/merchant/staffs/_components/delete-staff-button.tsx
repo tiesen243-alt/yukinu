@@ -35,7 +35,7 @@ export const DeleteStaffButton: React.FC<{
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete staff "{staffUsername}"?
+            Are you sure you want to delete staff &quot;{staffUsername}&quot;?
           </AlertDialogTitle>
         </AlertDialogHeader>
 

@@ -6,5 +6,7 @@ export default defineConfig({
   extends: [core, react],
   rules: {
     'jsx-a11y/prefer-tag-over-role': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
+    'react/hooks': 'off',
   },
 })

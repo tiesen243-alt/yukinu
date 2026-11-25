@@ -16,8 +16,6 @@ export const BannersList: React.FC = () => {
   const { data } = useSuspenseQuery(trpc.sales.banner.all.queryOptions())
   const totalBanners = data.length
 
-  if (totalBanners === 0) return <BannersListSkeleton />
-
   const handlePrevious = useCallback(() => {
     setDirection('previous')
     setImageIdx((prev) => (prev - 1 + totalBanners) % totalBanners)
@@ -47,6 +45,8 @@ export const BannersList: React.FC = () => {
 
     return () => clearInterval(interval)
   }, [totalBanners])
+
+  if (totalBanners === 0) return <BannersListSkeleton />
 
   return (
     <div className='relative h-full w-full overflow-hidden rounded-xl'>

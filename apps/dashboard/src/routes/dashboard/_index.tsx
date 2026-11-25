@@ -23,8 +23,8 @@ const DashboardIndexPageContent: React.FC<{ isAdmin: boolean }> = ({
   <>
     <Typography variant='h2'>Admin Insights</Typography>
     <Typography className='text-muted-foreground'>
-      Get a comprehensive overview of your marketplace's performance, including
-      key metrics, revenue trends, top-selling products, and recent
+      Get a comprehensive overview of your marketplace&apos;s performance,
+      including key metrics, revenue trends, top-selling products, and recent
       transactions, all in one place to help you make informed decisions and
       optimize your business strategy.
     </Typography>

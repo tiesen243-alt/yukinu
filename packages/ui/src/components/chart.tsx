@@ -61,6 +61,7 @@ function ChartContainer({
   const chartId = `chart-${id ?? uniqueId.replaceAll(':', '')}`
 
   return (
+    // oxlint-disable-next-line react/jsx-no-constructed-context-values
     <ChartContext.Provider value={{ config }}>
       <div
         data-slot='chart'
@@ -93,6 +94,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 
   return (
     <style
+      // oxlint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(

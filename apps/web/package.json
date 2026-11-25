@@ -19,7 +19,7 @@
     "@yukinu/lib": "workspace:*",
     "@yukinu/ui": "workspace:*",
     "@yukinu/uploadthing": "workspace:*",
-    "next": "^16.2.7",
+    "next": "^16.4.6",
     "nuqs": "catalog:prod",
     "react": "catalog:react",
     "react-dom": "catalog:react",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:tailwind",
-    "@types/node": "^25.9.1",
+    "@types/node": "^26.6.7",
     "@types/react": "catalog:react",
     "@types/react-dom": "catalog:react",
     "@yukinu/oxc": "workspace:*",

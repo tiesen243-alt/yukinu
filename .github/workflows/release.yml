@@ -37,4 +37,4 @@ jobs:
           version: bun tools/github/scripts/changeset-version.js
           publish: bun run changeset tag
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PATH_TOKEN }}

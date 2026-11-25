@@ -53,20 +53,21 @@ export default function MerchantBalanceIndexPage() {
                       money?
                     </p>
                     <p className='rounded-md border-l-4 border-destructive bg-muted p-3 font-mono text-muted-foreground italic'>
-                      "Once the money touches my database, it's legally,
-                      spiritually, and physically MY money." — The Dev.
+                      &quot;Once the money touches my database, it&apos;s
+                      legally, spiritually, and physically MY money.&quot; — The
+                      Dev.
                     </p>
                     <p>
                       There is no Cash Out button. There is no finance team. If
-                      you really want that balance, you'll have to track down my
-                      IP, break into my house, and fight me in a 1v1 mid lane.
-                      Good luck with that!
+                      you really want that balance, you&apos;ll have to track
+                      down my IP, break into my house, and fight me in a 1v1 mid
+                      lane. Good luck with that!
                     </p>
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>
-                    I accept my fate, I'm broke.
+                    I accept my fate, I&apos;m broke.
                   </AlertDialogCancel>
                 </AlertDialogFooter>
               </AlertDialogContent>

@@ -28,6 +28,7 @@ const TRPCProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const queryClient = getQueryClient()
+  // oxlint-disable-next-line react/hook-use-state
   const [trpcClient] = React.useState(() =>
     createTRPCClient('dashboard', env.VITE_DASHBOARD_URL),
   )

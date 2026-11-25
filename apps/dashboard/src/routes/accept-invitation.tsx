@@ -45,15 +45,13 @@ export default function AcceptInvitationPage(_: Route.ComponentProps) {
   const token = searchParams.get('token')
   if (!token)
     return (
-      <>
-        <CardHeader>
-          <CardTitle>Invalid Invitation Token</CardTitle>
-          <CardDescription>
-            The invitation token is missing or invalid. Please check the link
-            you received and try again.
-          </CardDescription>
-        </CardHeader>
-      </>
+      <CardHeader>
+        <CardTitle>Invalid Invitation Token</CardTitle>
+        <CardDescription>
+          The invitation token is missing or invalid. Please check the link you
+          received and try again.
+        </CardDescription>
+      </CardHeader>
     )
 
   return (

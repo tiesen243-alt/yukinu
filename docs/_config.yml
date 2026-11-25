@@ -8,7 +8,7 @@ search_enabled: true
 
 aux_links:
   'GitHub':
-    - '//github.com/tiesen243/yukinu'
+    - '//github.com/tiesen243-alt/yukinu'
 aux_links_new_tab: true
 
 nav_enabled: true
@@ -21,7 +21,7 @@ last_edit_time_format: '%b %e %Y at %I:%M %p'
 
 gh_edit_link: true
 gh_edit_link_text: 'Edit this page on GitHub.'
-gh_edit_repository: 'https://github.com/tiesen243/yukinu'
+gh_edit_repository: 'https://github.com/tiesen243-alt/yukinu'
 gh_edit_branch: 'main'
 
 mermaid:

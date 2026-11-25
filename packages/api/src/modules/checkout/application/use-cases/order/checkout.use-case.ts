@@ -47,7 +47,10 @@ export class CheckoutUseCase extends AbstractUseCase<
     )
 
     return this._db.transaction(async (tx) => {
-      const voucher = await this._applyAndConsumeVoucher(voucherId, tx)
+      const voucher = await this._applyAndConsumeVoucher(
+        voucherId,
+        tx as Database,
+      )
 
       let totalSubtotal = 0
       const vendorsOrdersPlan = Object.entries(cartItemsByVendor).flatMap(
@@ -92,6 +95,7 @@ export class CheckoutUseCase extends AbstractUseCase<
           totalAmount: vendorSubtotal.toFixed(2),
         })
 
+        // oxlint-disable-next-line no-await-in-loop
         const orderId = await this._orderRepo.save(order, tx)
         orderIds.push(orderId ?? 0)
 
@@ -106,6 +110,7 @@ export class CheckoutUseCase extends AbstractUseCase<
             }),
         )
 
+        // oxlint-disable-next-line no-await-in-loop
         await this._orderItemRepo.saveMany(orderItems, tx)
       }
 

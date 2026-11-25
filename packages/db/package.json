@@ -24,17 +24,16 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
-    "typecheck": "tsc --noEmit",
-    "~dev": "tsdown --watch ./src"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "drizzle-orm": "^0.45.2",
-    "postgres": "^3.4.9"
+    "drizzle-orm": "^0.45.4",
+    "postgres": "^4.1.1"
   },
   "devDependencies": {
     "@yukinu/oxc": "workspace:*",
     "@yukinu/tsconfig": "workspace:*",
-    "drizzle-kit": "^0.31.10",
+    "drizzle-kit": "^0.31.11",
     "tsdown": "catalog:dev",
     "typescript": "catalog:dev"
   }

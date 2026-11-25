@@ -63,6 +63,7 @@ const LoadTurnstile: React.FC<{ children: React.ReactNode }> = ({
     const id = window.turnstile.render('.cf-turnstile', {
       sitekey: env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
     })
+    // oxlint-disable-next-line react/set-state-in-effect
     setWidgetId(id)
 
     return () => {
@@ -74,10 +75,13 @@ const LoadTurnstile: React.FC<{ children: React.ReactNode }> = ({
         setWidgetId(null)
       }
     }
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [pathname])
 
+  const memorizedValue = React.useMemo(() => ({ id: widgetId }), [widgetId])
+
   return (
-    <TurnstileContext value={{ id: widgetId }}>
+    <TurnstileContext value={memorizedValue}>
       {children}
 
       <Script

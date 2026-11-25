@@ -4,29 +4,28 @@ export default defineConfig({
   env: {
     browser: true,
   },
-  ignorePatterns: [
-    // Build
-    '**/dist',
-    '**/build',
-    '**/out',
-    '**/.next',
-    '**/.react-router',
-    // Test
-    '**/coverage',
-  ],
   overrides: [
     {
       // Shared test file overrides — framework-specific test rules
       // are in separate jest/ and vitest/ configs to avoid conflicts.
       files: [
-        '**/*.{test,spec}.{ts,tsx,js,jsx}',
-        '**/__tests__/**/*.{ts,tsx,js,jsx}',
+        '**/*.{test,spec,test-d,spec-d}.{ts,tsx,js,jsx,mts,cts,mjs,cjs}',
+        '**/__tests__/**/*.{ts,tsx,js,jsx,mts,cts,mjs,cjs}',
       ],
       rules: {
-        // Disabled: mock callbacks often need empty functions
         'no-empty-function': 'off',
-        // Disabled: mock factories use Promise.resolve/reject (conflicts with require-await)
-        'promise/prefer-await-to-then': 'off',
+      },
+    },
+    {
+      // Astro compiles frontmatter into the page's server-side render
+      // function, so a top-level `return` is valid there (#805). The rule
+      // has no options to allow only `return`, so turn it off and keep the
+      // CommonJS checks it also covered via rules that do take options.
+      files: ['**/*.astro'],
+      rules: {
+        'import/no-commonjs': 'error',
+        'no-restricted-globals': ['error', '__dirname', '__filename'],
+        'unicorn/prefer-module': 'off',
       },
     },
   ],
@@ -41,7 +40,7 @@ export default defineConfig({
     'promise',
   ],
   rules: {
-    // Eslint
+    // ── eslint ──────────────────────────────────────────────────────────
     'accessor-pairs': 'error',
     'array-callback-return': 'error',
     'arrow-body-style': ['error', 'as-needed'],
@@ -56,12 +55,17 @@ export default defineConfig({
     'default-param-last': 'error',
     eqeqeq: 'error',
     'for-direction': 'error',
+    'func-name-matching': 'error',
     'func-names': 'error',
     'func-style': 'off',
+    'getter-return': 'error',
     'grouped-accessor-pairs': 'error',
     'guard-for-in': 'error',
+    'id-denylist': 'error',
     'id-length': 'off',
+    'id-match': 'error',
     'init-declarations': 'off',
+    'logical-assignment-operators': 'error',
     'max-classes-per-file': 'error',
     'max-depth': 'off',
     'max-lines': 'off',
@@ -73,7 +77,7 @@ export default defineConfig({
     'no-alert': 'error',
     'no-array-constructor': 'error',
     'no-async-promise-executor': 'error',
-    'no-await-in-loop': 'off',
+    'no-await-in-loop': 'error',
     'no-bitwise': 'error',
     'no-caller': 'error',
     'no-case-declarations': 'error',
@@ -112,6 +116,8 @@ export default defineConfig({
     'no-func-assign': 'error',
     'no-global-assign': 'error',
     'no-implicit-coercion': 'off',
+    'no-implicit-globals': 'error',
+    'no-implied-eval': 'error',
     'no-import-assign': 'error',
     'no-inline-comments': 'off',
     'no-inner-declarations': 'error',
@@ -128,7 +134,9 @@ export default defineConfig({
     'no-misleading-character-class': 'error',
     'no-multi-assign': 'error',
     'no-multi-str': 'error',
-    'no-negated-condition': 'error',
+    // Off: `unicorn/no-negated-condition` reports the same conditions at the
+    // same position and adds a fix, so this one only doubled each report.
+    'no-negated-condition': 'off',
     'no-nested-ternary': 'error',
     'no-new': 'error',
     'no-new-func': 'error',
@@ -144,8 +152,12 @@ export default defineConfig({
     'no-prototype-builtins': 'error',
     'no-redeclare': 'error',
     'no-regex-spaces': 'error',
+    // These two and typescript/no-restricted-types report nothing until a
+    // project lists what to restrict; they're on so it only has to add the
+    // options (see the configuration docs).
     'no-restricted-globals': 'error',
     'no-restricted-imports': 'error',
+    'no-restricted-properties': 'off',
     'no-return-assign': 'error',
     'no-script-url': 'error',
     'no-self-assign': 'error',
@@ -161,16 +173,48 @@ export default defineConfig({
     'no-throw-literal': 'error',
     'no-unassigned-vars': 'error',
     'no-undefined': 'off',
+    'no-underscore-dangle': 'off',
     'no-unexpected-multiline': 'error',
-    'no-unmodified-loop-condition': 'error',
+    // Each branch of a ternary in a loop condition must be modified inside
+    // the loop, not just the expression as a whole.
+    'no-unmodified-loop-condition': [
+      'error',
+      { checkConditionalExpressions: true },
+    ],
     'no-unneeded-ternary': 'error',
+    'no-unreachable': 'error',
+    // A nursery rule in oxlint, enabled deliberately (the non-nursery
+    // coverage test does not require it); ESLint's no-unreachable-loop is on
+    // too.
+    'no-unreachable-loop': 'error',
     'no-unsafe-finally': 'error',
     'no-unsafe-negation': 'error',
     'no-unsafe-optional-chaining': 'error',
     'no-unused-expressions': 'error',
     'no-unused-labels': 'error',
     'no-unused-private-class-members': 'error',
-    'no-unused-vars': 'error',
+    // One convention for "unused on purpose" in every linter: a leading
+    // underscore, for parameters, variables, caught errors and destructured
+    // array elements. A property left out through a rest sibling
+    // (`const { secret, ...rest } = obj`) and a `using` declaration held only
+    // for its disposal aren't unused either.
+    'no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        ignoreRestSiblings: true,
+        ignoreUsingDeclarations: true,
+        varsIgnorePattern: '^_',
+      },
+    ],
+    // `variables: false` skips a reference from inside a function to a
+    // variable declared later in an outer scope, which can't run before the
+    // declaration does unless the function is called during load. Functions
+    // that call each other have no order that satisfies the default. A use in
+    // the same scope, and a function or class used before it, still report.
+    // https://www.ultracite.ai/research/func-style
     'no-use-before-define': 'off',
     'no-useless-backreference': 'error',
     'no-useless-call': 'error',
@@ -184,26 +228,41 @@ export default defineConfig({
     'no-var': 'error',
     // Avoid conflict with typescript/no-floating-promises
     'no-void': ['error', { allowAsStatement: true }],
-    'no-warning-comments': 'error',
+    // The default terms, plus JSDoc's `@todo` tag. The `*` decoration finds a
+    // term behind the leading asterisks of a block comment, as in
+    // `/** @todo */` and `/* ** TODO */`.
+    'no-warning-comments': [
+      'error',
+      { decoration: ['*'], terms: ['todo', 'fixme', 'xxx', '@todo'] },
+    ],
     'no-with': 'error',
     'object-shorthand': 'error',
+    'one-var': ['error', 'never'],
     'operator-assignment': 'error',
+    'prefer-arrow-callback': 'off',
     'prefer-const': 'error',
     'prefer-destructuring': 'error',
     'prefer-exponentiation-operator': 'error',
+    'prefer-named-capture-group': 'off',
     'prefer-numeric-literals': 'error',
     'prefer-object-has-own': 'error',
     'prefer-object-spread': 'error',
     'prefer-promise-reject-errors': 'error',
+    'prefer-regex-literals': 'error',
     'prefer-rest-params': 'error',
     'prefer-spread': 'error',
     'prefer-template': 'error',
     'preserve-caught-error': 'error',
     radix: 'error',
     'require-await': 'error',
+    'require-unicode-regexp': 'off',
     'require-yield': 'error',
-    // Rely on oxfmt `experimentalSortImports` instead
+    // Rely on oxfmt `sortImports` instead
     'sort-imports': 'off',
+    // Off: its fix is classed as safe, so `fix` would reorder every object,
+    // and key order can be observable (serialised output, iteration order,
+    // `exports` maps, option objects TypeScript infers from in source order).
+    // https://www.ultracite.ai/research/sort-keys
     'sort-keys': 'off',
     'sort-vars': 'error',
     'symbol-description': 'error',
@@ -213,7 +272,7 @@ export default defineConfig({
     'vars-on-top': 'error',
     yoda: 'error',
 
-    // Import
+    // ── import ─────────────────────────────────────────────────────────
     'import/consistent-type-specifier-style': ['error', 'prefer-top-level'],
     'import/default': 'error',
     'import/exports-last': 'off',
@@ -222,6 +281,7 @@ export default defineConfig({
     'import/group-exports': 'off',
     'import/max-dependencies': 'off',
     'import/namespace': 'error',
+    'import/newline-after-import': 'error',
     'import/no-absolute-path': 'error',
     'import/no-amd': 'error',
     'import/no-anonymous-default-export': 'off',
@@ -236,6 +296,8 @@ export default defineConfig({
     'import/no-named-as-default-member': 'error',
     'import/no-named-default': 'error',
     'import/no-named-export': 'off',
+    // Libraries such as Zod and Radix document `import * as` as their API,
+    // and bundlers tree-shake member access on a namespace.
     'import/no-namespace': 'off',
     'import/no-nodejs-modules': 'off',
     'import/no-relative-parent-imports': 'off',
@@ -245,12 +307,13 @@ export default defineConfig({
     'import/prefer-default-export': 'off',
     'import/unambiguous': 'off',
 
-    // JSDoc
+    // ── jsdoc ──────────────────────────────────────────────────────────
     'jsdoc/check-access': 'error',
     'jsdoc/check-property-names': 'error',
     'jsdoc/check-tag-names': 'error',
     'jsdoc/empty-tags': 'error',
     'jsdoc/implements-on-classes': 'error',
+    'jsdoc/no-blank-blocks': 'error',
     'jsdoc/no-defaults': 'error',
     'jsdoc/require-param': 'off',
     'jsdoc/require-param-description': 'error',
@@ -263,25 +326,38 @@ export default defineConfig({
     'jsdoc/require-returns': 'off',
     'jsdoc/require-returns-description': 'error',
     'jsdoc/require-returns-type': 'off',
+    'jsdoc/require-throws-description': 'error',
+    'jsdoc/require-throws-type': 'error',
     'jsdoc/require-yields': 'error',
+    'jsdoc/require-yields-description': 'error',
+    'jsdoc/require-yields-type': 'error',
 
-    // Node
+    // ── node ───────────────────────────────────────────────────────────
+    'node/callback-return': 'error',
+    'node/exports-style': 'error',
     'node/global-require': 'error',
     'node/handle-callback-err': 'error',
     'node/no-exports-assign': 'error',
+    'node/no-mixed-requires': 'error',
     'node/no-new-require': 'error',
     'node/no-path-concat': 'error',
     'node/no-process-env': 'off',
+    'node/no-sync': 'off',
+    // Top-level await is idiomatic in ESM — Astro frontmatter, build
+    // scripts, and CLI entry points all rely on it.
+    'node/no-top-level-await': 'off',
 
-    // Oxc
+    // ── oxc ────────────────────────────────────────────────────────────
     'oxc/approx-constant': 'error',
     'oxc/bad-array-method-on-arguments': 'error',
     'oxc/bad-bitwise-operator': 'error',
     'oxc/bad-char-at-comparison': 'error',
     'oxc/bad-comparison-sequence': 'error',
+    'oxc/bad-match-all-arg': 'error',
     'oxc/bad-min-max-func': 'error',
     'oxc/bad-object-literal-comparison': 'error',
     'oxc/bad-replace-all-arg': 'error',
+    'oxc/branches-sharing-code': 'error',
     'oxc/const-comparisons': 'error',
     'oxc/double-comparisons': 'error',
     'oxc/erasing-op': 'error',
@@ -300,10 +376,10 @@ export default defineConfig({
     'oxc/only-used-in-recursion': 'error',
     'oxc/uninvoked-array-callback': 'error',
 
-    // Promise
-    'promise/always-return': 'off',
+    // ── promise ────────────────────────────────────────────────────────
+    'promise/always-return': 'error',
     'promise/avoid-new': 'error',
-    'promise/catch-or-return': 'off',
+    'promise/catch-or-return': 'error',
     'promise/no-callback-in-promise': 'error',
     'promise/no-multiple-resolved': 'error',
     'promise/no-nesting': 'error',
@@ -312,12 +388,16 @@ export default defineConfig({
     'promise/no-return-wrap': 'error',
     'promise/param-names': 'error',
     'promise/prefer-await-to-callbacks': 'error',
-    'promise/prefer-await-to-then': 'error',
+    // Matches `.then()`, `.catch()` and `.finally()` by name, so it reports
+    // non-promise APIs such as Zod's `.catch()` fallback, and has no type
+    // information to tell them apart (oxc-project/oxc#22161, #854).
+    // always-return and catch-or-return still check promise chains.
+    'promise/prefer-await-to-then': 'off',
     'promise/prefer-catch': 'error',
     'promise/spec-only': 'error',
     'promise/valid-params': 'error',
 
-    // Typescript
+    // ── typescript ─────────────────────────────────────────────────────
     'typescript/adjacent-overload-signatures': 'error',
     'typescript/array-type': 'error',
     'typescript/await-thenable': 'error',
@@ -331,10 +411,18 @@ export default defineConfig({
     'typescript/consistent-type-assertions': 'error',
     'typescript/consistent-type-definitions': 'error',
     'typescript/consistent-type-exports': 'error',
-    'typescript/consistent-type-imports': 'error',
+    // `import()` type annotations are allowed: `typeof import("x")` is the
+    // only way to type a lazily or conditionally loaded module without
+    // loading it, and the report has no fix.
+    'typescript/consistent-type-imports': [
+      'error',
+      { disallowTypeAnnotations: false },
+    ],
     'typescript/dot-notation': 'error',
     'typescript/explicit-function-return-type': 'off',
+    'typescript/explicit-member-accessibility': 'off',
     'typescript/explicit-module-boundary-types': 'off',
+    'typescript/method-signature-style': 'error',
     'typescript/no-array-delete': 'error',
     'typescript/no-base-to-string': 'error',
     'typescript/no-confusing-non-null-assertion': 'error',
@@ -350,6 +438,7 @@ export default defineConfig({
     'typescript/no-extraneous-class': 'error',
     'typescript/no-floating-promises': 'error',
     'typescript/no-for-in-array': 'error',
+    'typescript/no-generated-empty-object-type': 'error',
     'typescript/no-implied-eval': 'error',
     'typescript/no-import-type-side-effects': 'error',
     'typescript/no-inferrable-types': 'error',
@@ -380,6 +469,7 @@ export default defineConfig({
     'typescript/no-unsafe-assignment': 'error',
     'typescript/no-unsafe-call': 'error',
     'typescript/no-unsafe-declaration-merging': 'error',
+    'typescript/no-unsafe-enum-assignment': 'error',
     'typescript/no-unsafe-enum-comparison': 'error',
     'typescript/no-unsafe-function-type': 'error',
     'typescript/no-unsafe-member-access': 'error',
@@ -413,10 +503,13 @@ export default defineConfig({
     'typescript/promise-function-async': 'error',
     'typescript/related-getter-setter-pairs': 'error',
     'typescript/require-array-sort-compare': 'error',
+    // The base require-await rule covers TS files. With type-aware linting
+    // on, both would report the same functions, though the base rule also
+    // reports async functions that return a promise without awaiting it.
     'typescript/require-await': 'off',
     'typescript/restrict-plus-operands': 'error',
     'typescript/restrict-template-expressions': 'error',
-    'typescript/return-await': 'error',
+    'typescript/return-await': ['error', 'always'],
     'typescript/strict-boolean-expressions': 'error',
     'typescript/strict-void-return': 'error',
     'typescript/switch-exhaustiveness-check': 'error',
@@ -425,7 +518,7 @@ export default defineConfig({
     'typescript/unified-signatures': 'error',
     'typescript/use-unknown-in-catch-callback-variable': 'error',
 
-    // Unicorn
+    // ── unicorn ────────────────────────────────────────────────────────
     'unicorn/consistent-template-literal-escape': 'error',
     'unicorn/catch-error-name': 'error',
     'unicorn/consistent-assert': 'error',
@@ -438,12 +531,16 @@ export default defineConfig({
     'unicorn/error-message': 'error',
     'unicorn/escape-case': 'error',
     'unicorn/explicit-length-check': 'off',
+    'unicorn/explicit-timer-delay': 'error',
     'unicorn/filename-case': 'error',
+    'unicorn/import-style': 'error',
+    'unicorn/max-nested-calls': 'off',
     'unicorn/new-for-builtins': 'error',
     'unicorn/no-abusive-eslint-disable': 'error',
     'unicorn/no-accessor-recursion': 'error',
     'unicorn/no-anonymous-default-export': 'error',
     'unicorn/no-array-callback-reference': 'off',
+    'unicorn/no-array-fill-with-reference-type': 'error',
     'unicorn/no-array-for-each': 'error',
     'unicorn/no-array-method-this-argument': 'error',
     'unicorn/no-array-reduce': 'error',
@@ -451,6 +548,7 @@ export default defineConfig({
     'unicorn/no-array-sort': 'error',
     'unicorn/no-await-expression-member': 'error',
     'unicorn/no-await-in-promise-methods': 'error',
+    'unicorn/no-confusing-array-with': 'error',
     'unicorn/no-console-spaces': 'error',
     'unicorn/no-document-cookie': 'error',
     'unicorn/no-empty-file': 'error',
@@ -463,8 +561,12 @@ export default defineConfig({
     'unicorn/no-length-as-slice-end': 'error',
     'unicorn/no-lonely-if': 'error',
     'unicorn/no-magic-array-flat-depth': 'error',
+    'unicorn/no-negated-condition': 'error',
     'unicorn/no-negation-in-equality-check': 'error',
-    'unicorn/no-nested-ternary': 'error',
+    // Its fixer wraps the inner ternary in parentheses that oxfmt strips, so
+    // every `fix` run ping-pongs. eslint-config-prettier disables it for the
+    // same reason; the core `no-nested-ternary` still reports the construct.
+    'unicorn/no-nested-ternary': 'off',
     'unicorn/no-new-array': 'error',
     'unicorn/no-new-buffer': 'error',
     'unicorn/no-null': 'off',
@@ -488,9 +590,15 @@ export default defineConfig({
     'unicorn/no-useless-promise-resolve-reject': 'error',
     'unicorn/no-useless-spread': 'error',
     'unicorn/no-useless-switch-case': 'error',
-    'unicorn/no-useless-undefined': 'error',
+    // A required parameter typed `T | undefined` has to be passed `undefined`
+    // explicitly, and the rule's autofix deletes it into a TS2554 error
+    // (#851). The rule can't see parameter types, so skip call arguments.
+    // Not a TypeScript-only override: oxlint applies a preset's overrides
+    // after the user's own `rules`, so it would undo their settings.
+    'unicorn/no-useless-undefined': ['error', { checkArguments: false }],
     'unicorn/no-zero-fractions': 'error',
-    'unicorn/number-literal-case': 'error',
+    // Disabled due to https://github.com/oxc-project/oxc/issues/21949
+    'unicorn/number-literal-case': 'off',
     'unicorn/numeric-separators-style': 'error',
     'unicorn/prefer-add-event-listener': 'error',
     'unicorn/prefer-array-find': 'error',
@@ -511,6 +619,7 @@ export default defineConfig({
     'unicorn/prefer-dom-node-remove': 'error',
     'unicorn/prefer-dom-node-text-content': 'error',
     'unicorn/prefer-event-target': 'error',
+    'unicorn/prefer-export-from': 'error',
     'unicorn/prefer-global-this': 'off',
     'unicorn/prefer-import-meta-properties': 'error',
     'unicorn/prefer-includes': 'error',
@@ -524,6 +633,7 @@ export default defineConfig({
     'unicorn/prefer-native-coercion-functions': 'error',
     'unicorn/prefer-negative-index': 'error',
     'unicorn/prefer-node-protocol': 'error',
+    'unicorn/prefer-number-coercion': 'off',
     'unicorn/prefer-number-properties': 'error',
     'unicorn/prefer-object-from-entries': 'error',
     'unicorn/prefer-optional-catch-binding': 'error',
@@ -534,6 +644,7 @@ export default defineConfig({
     'unicorn/prefer-response-static-json': 'error',
     'unicorn/prefer-set-has': 'error',
     'unicorn/prefer-set-size': 'error',
+    'unicorn/prefer-single-call': 'error',
     'unicorn/prefer-spread': 'error',
     'unicorn/prefer-string-raw': 'off',
     'unicorn/prefer-string-replace-all': 'error',
@@ -543,7 +654,7 @@ export default defineConfig({
     'unicorn/prefer-structured-clone': 'error',
     'unicorn/prefer-ternary': 'error',
     'unicorn/prefer-top-level-await': 'off',
-    'unicorn/prefer-type-error': 'error',
+    'unicorn/prefer-type-error': 'off',
     'unicorn/relative-url-style': 'error',
     'unicorn/require-array-join-separator': 'error',
     'unicorn/require-module-attributes': 'error',

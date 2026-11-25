@@ -60,7 +60,7 @@ export class UpdateOrderStatusUseCase extends AbstractUseCase<
         )
 
       if (status === 'confirmed' && order.payment?.status === 'success')
-        await this._updateVendorBalance(order, tx)
+        await this._updateVendorBalance(order, tx as Database)
     })
   }
 

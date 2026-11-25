@@ -18,6 +18,7 @@ export async function sendEmail<T extends keyof typeof templates>(
     from: 'Yukinu <no-reply@tiesen.id.vn>',
     to: opts.to,
     subject: opts.subject,
+    // oxlint-disable-next-line import/namespace
     react: templates[opts.template](opts.data as never),
   })
 
