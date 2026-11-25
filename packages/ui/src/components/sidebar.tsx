@@ -69,6 +69,7 @@ function SidebarProvider({
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
+  // oxlint-disable-next-line react/hook-use-state
   const [_open, _setOpen] = React.useState(defaultOpen)
   const open = openProp ?? _open
   const setOpen = React.useCallback(
@@ -292,6 +293,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<'button'>) {
       data-sidebar='rail'
       data-slot='sidebar-rail'
       aria-label='Toggle Sidebar'
+      type='button'
       tabIndex={-1}
       onClick={toggleSidebar}
       title='Toggle Sidebar'
@@ -607,6 +609,7 @@ function SidebarMenuSkeleton({
   showIcon?: boolean
 }) {
   // Random width between 50 to 90%.
+  // oxlint-disable-next-line react/hook-use-state
   const [width] = React.useState(
     () => `${Math.floor(Math.random() * 40) + 50}%`,
   )

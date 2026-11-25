@@ -39,6 +39,7 @@ function TurnstileChallengeScript({
     const id = window.turnstile.render('.cf-turnstile', {
       sitekey: env.VITE_TURNSTILE_SITE_KEY,
     })
+    // oxlint-disable-next-line react/set-state-in-effect
     setWidgetId(id)
 
     return () => {
@@ -50,10 +51,13 @@ function TurnstileChallengeScript({
         setWidgetId(null)
       }
     }
+    // oxlint-disable-next-line react/exhaustive-effect-dependencies
   }, [location])
 
+  const memorizedValue = React.useMemo(() => ({ id: widgetId }), [widgetId])
+
   return (
-    <TurnstileContext value={{ id: widgetId }}>
+    <TurnstileContext value={memorizedValue}>
       {children}
 
       <script

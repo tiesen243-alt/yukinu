@@ -43,6 +43,7 @@ const publicProcedure = t.procedure.use(
     const source = ctx.reqHeaders.get('x-trpc-source') ?? 'unknown'
     const by = ctx.session?.userId ?? 'anonymous'
 
+    // oxlint-disable-next-line node/callback-return
     const result = await next()
 
     const end = performance.now()

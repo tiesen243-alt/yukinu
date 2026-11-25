@@ -9,6 +9,7 @@ export default defineConfig({
       rules: {
         'class-methods-use-this': 'off',
 
+        'typescript/method-signature-style': 'off',
         'typescript/no-empty-interface': 'off',
         'typescript/no-empty-object-type': 'off',
       },

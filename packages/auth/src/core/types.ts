@@ -57,9 +57,9 @@ export interface OAuthAccount {
 }
 
 export interface AuthAdapter {
-  createUser(
+  createUser: (
     user: Pick<User, 'username' | 'email' | 'image'>,
-  ): Awaitable<Pick<User, 'id'>>
+  ) => Awaitable<Pick<User, 'id'>>
   getUser: (id: string) => Awaitable<User | null>
   getUserByEmail: (email: string) => Awaitable<User | null>
   getUserByAccount: (

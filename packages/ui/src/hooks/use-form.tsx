@@ -264,6 +264,7 @@ function useForm<
       },
       reset,
     }),
+    // oxlint-disable-next-line react/memo-dependencies
     [formId, Field, handleSubmit, isPending, reset],
   )
 }

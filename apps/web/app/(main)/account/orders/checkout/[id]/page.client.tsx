@@ -164,7 +164,7 @@ export const PaymentDetails: React.FC<{ paymentId: string }> = ({
               <AlertTitle>Demo Environment Active</AlertTitle>
               <AlertDescription>
                 The app is in demo mode. Please transfer exactly{' '}
-                <strong>2,000 VND</strong> (the bank's minimum requirement)
+                <strong>2,000 VND</strong> (the bank&apos;s minimum requirement)
                 instead of the actual order total. The payment status will
                 update automatically.
               </AlertDescription>

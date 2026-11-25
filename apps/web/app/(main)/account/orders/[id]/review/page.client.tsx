@@ -17,6 +17,7 @@ export const ProductReview: React.FC<{ id: number }> = ({ id }) => {
       data?.items.filter((item) =>
         data.unreviewedProductIds.includes(item.productId ?? ''),
       ) ?? [],
+    // oxlint-disable-next-line react/preserve-manual-memoization
     [data?.items, data?.unreviewedProductIds],
   )
 

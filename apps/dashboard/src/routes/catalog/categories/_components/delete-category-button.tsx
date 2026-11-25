@@ -39,8 +39,8 @@ export const DeleteCategoryButton: React.FC<{
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Are you sure you want to delete the category "{categoryName}"? This
-            action cannot be undone.
+            Are you sure you want to delete the category &quot;{categoryName}
+            &quot;? This action cannot be undone.
           </AlertDialogTitle>
         </AlertDialogHeader>
 
