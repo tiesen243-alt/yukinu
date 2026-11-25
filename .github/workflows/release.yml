@@ -21,7 +21,7 @@ env:
 
 jobs:
   release:
-    if: ${{ github.repository_owner == 'tiesen243' }}
+    if: ${{ github.repository_owner == 'tiesen243-alt' }}
     name: Create a PR for release workflow
     runs-on: ubuntu-latest
     steps:
