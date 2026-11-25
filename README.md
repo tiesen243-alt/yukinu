@@ -1,23 +1,23 @@
 # Yukinu – Multi-Vendor E-commerce Platform
 
 <p align="center">
-  <a href="https://github.com/tiesen243/yukinu/actions/workflows/release.yml">
-    <img src="https://github.com/tiesen243/yukinu/actions/workflows/release.yml/badge.svg" alt="Release">
+  <a href="https://github.com/tiesen243-alt/yukinu/actions/workflows/release.yml">
+    <img src="https://github.com/tiesen243-alt/yukinu/actions/workflows/release.yml/badge.svg" alt="Release">
   </a>
-  <a href="https://github.com/tiesen243/yukinu/actions/workflows/ci.yml">
-    <img src="https://github.com/tiesen243/yukinu/actions/workflows/ci.yml/badge.svg" alt="CI">
+  <a href="https://github.com/tiesen243-alt/yukinu/actions/workflows/ci.yml">
+    <img src="https://github.com/tiesen243-alt/yukinu/actions/workflows/ci.yml/badge.svg" alt="CI">
   </a>
-  <a href="https://github.com/tiesen243/yukinu/releases?q=web">
-    <img src="https://img.shields.io/github/package-json/v/tiesen243/yukinu/dev?filename=apps/web/package.json&label=version@web" alt="Version Web">
+  <a href="https://github.com/tiesen243-alt/yukinu/releases?q=web">
+    <img src="https://img.shields.io/github/package-json/v/tiesen243-alt/yukinu/dev?filename=apps/web/package.json&label=version@web" alt="Version Web">
   </a>
-  <a href="https://github.com/tiesen243/yukinu/releases?q=dashboard">
-    <img src="https://img.shields.io/github/package-json/v/tiesen243/yukinu/dev?filename=apps/dashboard/package.json&label=version@dashboard" alt="Version Dashboard">
+  <a href="https://github.com/tiesen243-alt/yukinu/releases?q=dashboard">
+    <img src="https://img.shields.io/github/package-json/v/tiesen243-alt/yukinu/dev?filename=apps/dashboard/package.json&label=version@dashboard" alt="Version Dashboard">
   </a>
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/tiesen243/yukinu" alt="License">
+    <img src="https://img.shields.io/github/license/tiesen243-alt/yukinu" alt="License">
   </a>
-  <a href="https://github.com/tiesen243/yukinu/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/tiesen243/yukinu" alt="Contributors">
+  <a href="https://github.com/tiesen243-alt/yukinu/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/tiesen243-alt/yukinu" alt="Contributors">
   </a>
 </p>
 
@@ -25,7 +25,7 @@ An open-source e-commerce platform that enables customers to discover, compare, 
 
 - [Web Preview](https://yukinu.vercel.app)
 - [Dashboard Preview](https://yukinu-dashboard.vercel.app)
-- [Documentation](https://tiesen243.github.io/yukinu)
+- [Documentation](https://tiesen243-alt.github.io/yukinu)
 
 Test accounts for the dashboard:
 
@@ -74,7 +74,7 @@ Test accounts for the dashboard:
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/tiesen243/yukinu.git
+    git clone https://github.com/tiesen243-alt/yukinu.git
     cd yukinu
     ```
 
