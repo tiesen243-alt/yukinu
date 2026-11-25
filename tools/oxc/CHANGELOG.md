@@ -1,5 +1,11 @@
 # @yukinu/oxc
 
+## 1.0.1
+
+### Patch Changes
+
+- b16ace5: Bump deps
+
 ## 1.0.0
 
 ### Major Changes

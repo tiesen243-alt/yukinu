@@ -1,5 +1,11 @@
 # @yukinu/lib
 
+## 1.0.2
+
+### Patch Changes
+
+- b16ace5: Bump deps
+
 ## 1.0.1
 
 ### Patch Changes

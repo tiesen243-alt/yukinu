@@ -1,5 +1,13 @@
 # @yukinu/ui
 
+## 1.0.3
+
+### Patch Changes
+
+- b16ace5: Bump deps
+- Updated dependencies [b16ace5]
+  - @yukinu/lib@1.0.2
+
 ## 1.0.2
 
 ### Patch Changes

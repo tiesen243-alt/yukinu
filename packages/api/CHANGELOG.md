@@ -1,5 +1,17 @@
 # @yukinu/api
 
+## 1.0.6
+
+### Patch Changes
+
+- b16ace5: Bump deps
+- Updated dependencies [b16ace5]
+  - @yukinu/auth@1.0.2
+  - @yukinu/db@1.0.1
+  - @yukinu/email@1.0.1
+  - @yukinu/lib@1.0.2
+  - @yukinu/uploadthing@1.0.2
+
 ## 1.0.5
 
 ### Patch Changes

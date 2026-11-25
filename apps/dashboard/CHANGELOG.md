@@ -1,5 +1,18 @@
 # @yukinu/dashboard
 
+## 1.0.7
+
+### Patch Changes
+
+- b16ace5: Bump deps
+- Updated dependencies [b16ace5]
+  - @yukinu/api@1.0.6
+  - @yukinu/auth@1.0.2
+  - @yukinu/db@1.0.1
+  - @yukinu/lib@1.0.2
+  - @yukinu/ui@1.0.3
+  - @yukinu/uploadthing@1.0.2
+
 ## 1.0.6
 
 ### Patch Changes
